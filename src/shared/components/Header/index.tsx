@@ -1,11 +1,11 @@
 import React from "react";
-import { ReactComponent as Logo } from "@/shared/assets/logo_shelterbuddy.svg";
+import logo from "@/shared/assets/logo_shelterbuddy.svg";
 import "./styles.scss";
 
 function Header() {
   return (
-    <header>
-        <Logo />
+    <header className="main-header">
+      <img src={logo} alt="Shelter Buddy logo" id="logo"/>
     </header>
   )
 }
