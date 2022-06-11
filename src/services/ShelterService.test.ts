@@ -16,7 +16,7 @@ describe('Requests from the ShelterBuddy Animal API', () => {
   });
 
   it("expect that all animals have name", async () => {
-    const animalHasName = (element: AnimalModel) => element.Name;
+    const animalHasName = (animal: AnimalModel) => animal.Name;
     let animalsHaveName = animalListData.Data.every(animalHasName);
     expect(animalsHaveName).toBe(true);
   });
