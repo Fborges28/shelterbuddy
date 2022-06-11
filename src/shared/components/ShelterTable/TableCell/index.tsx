@@ -17,9 +17,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-export default function ShelterTableCell({children}: Props): JSX.Element {
+export default function ShelterTableCell({children, align}: Props): JSX.Element {
     return (
-        <StyledTableCell>
+        <StyledTableCell align={align}>
             {children}
         </StyledTableCell>
     )

@@ -28,13 +28,11 @@ export default function ShelterAnimalTableBody(rows: AnimalRow[], placeholder = 
                     <ShelterTableCell>
                         <img className="thumbnail-photo" src={pet} alt={row.name || row.type}/>
                     </ShelterTableCell>
-                    <ShelterTableCell>
-                        {row.name || placeholder}
-                    </ShelterTableCell>
-                    <ShelterTableCell align="right">{row.type || placeholder}</ShelterTableCell>
-                    <ShelterTableCell align="right">{row.breed || placeholder}</ShelterTableCell>
-                    <ShelterTableCell align="right">{row.gender || placeholder}</ShelterTableCell>
-                    <ShelterTableCell align="right">{row.color || placeholder}</ShelterTableCell>
+                    <ShelterTableCell align="left">{row.name || placeholder}</ShelterTableCell>
+                    <ShelterTableCell align="left">{row.type || placeholder}</ShelterTableCell>
+                    <ShelterTableCell align="left">{row.breed || placeholder}</ShelterTableCell>
+                    <ShelterTableCell align="left">{row.gender || placeholder}</ShelterTableCell>
+                    <ShelterTableCell align="left">{row.color || placeholder}</ShelterTableCell>
                     <ShelterTableCell align="right">Details</ShelterTableCell>
                 </ShelterTableRow>
             ))}
