@@ -3,21 +3,25 @@ import { render, screen } from '@testing-library/react';
 import { ShelterData, AnimalModel } from './shelter.model';
 
 describe('Requests from the ShelterBuddy Animal API', () => {
-  let animalListFetch;
-  let animalListData: ShelterData;
+  let animalListResponse: Response;
+  let animalListJSON: ShelterData;
 
   beforeEach(async () => {
-    animalListFetch = await fetch("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
-    animalListData = await animalListFetch.json();
+    animalListResponse = await fetch("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
+    animalListJSON = await animalListResponse.json();
   })
 
-  it("retrieves the AnimalList endpoint data", async () => {
-    expect(animalListData).toBeDefined();
+  it("expect that API returns status 200 (OK)", () => {
+    expect(animalListResponse.status).toBe(200);
   });
 
-  it("expect that all animals have name", async () => {
+  it("retrieves the AnimalList endpoint data", () => {
+    expect(animalListJSON).toBeDefined();
+  });
+
+  it("expect that all animals have name", () => {
     const animalHasName = (animal: AnimalModel) => animal.Name;
-    let animalsHaveName = animalListData.Data.every(animalHasName);
+    let animalsHaveName = animalListJSON.Data.every(animalHasName);
     expect(animalsHaveName).toBe(true);
   });
 
