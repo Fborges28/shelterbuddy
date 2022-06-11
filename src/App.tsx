@@ -1,19 +1,25 @@
-import React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Header from '@/shared/components/Header';
+import ShelterHeader from '@/shared/components/ShelterHeader';
 import { Paper } from '@mui/material';
-import ShelterTable from '@/shared/components/ShelterTable';
+
+import ShelterAnimalTable from '@/shared/components/ShelterAnimalTable';
+import {createAnimalRow} from "@/shared/components/ShelterAnimalTable/TableBody";
+
+const rows = [
+    createAnimalRow("", "dog", "", "female", "white"),
+    createAnimalRow("Bob", "dog", "poodle", "female", "white"),
+    createAnimalRow("Bob", "dog", "poodle", "", "white")
+]
 
 function App() {
   return (
     <div className="App">
-      <Header></Header>
+      <ShelterHeader></ShelterHeader>
       <Container fixed>
         <Box sx={{ bgcolor: '#fff' }}>
           <Paper elevation={0} />
-          <ShelterTable></ShelterTable>
+          <ShelterAnimalTable content={rows}/>
         </Box>
       </Container>
     </div>

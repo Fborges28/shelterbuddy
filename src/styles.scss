@@ -16,7 +16,7 @@
     background-color: var(--background-color);
   }
   
-  header {
+  .main-header {
     display: flex;
     justify-content: center;
     margin: 96px 0;
@@ -49,10 +49,10 @@
   }
   
   @media only screen and (max-width: 900px) {
-    header {
+    .main-header {
       margin: 58px 0;
     }
-    header #logo {
+    .main-header #logo {
       max-width: 206px;
     }
     #main-content {
