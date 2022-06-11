@@ -7,9 +7,27 @@ import ShelterAnimalTable from '@/shared/components/ShelterAnimalTable';
 import {createAnimalRow} from "@/shared/components/ShelterAnimalTable/TableBody";
 
 const rows = [
-    createAnimalRow("", "dog", "", "female", "white"),
-    createAnimalRow("Bob", "dog", "poodle", "female", "white"),
-    createAnimalRow("Bob", "dog", "poodle", "", "white")
+    createAnimalRow({
+      name: "",
+      type: "dog",
+      breed: "",
+      gender: "female",
+      color: "white"
+    }),
+    createAnimalRow({
+      name: "Anny",
+      type: "dog",
+      breed: "poodle",
+      gender: "female",
+      color: "black"
+    }),
+    createAnimalRow({
+      name: null,
+      type: "dog",
+      breed: "",
+      gender: "",
+      color: "black"
+    }),
 ]
 
 function App() {
