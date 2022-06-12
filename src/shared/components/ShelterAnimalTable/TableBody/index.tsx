@@ -1,3 +1,6 @@
+import Button from '@mui/material/Button';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
 import ShelterTableRow from '@/shared/components/ShelterTable/TableRow';
 import ShelterTableCell from '@/shared/components/ShelterTable/TableCell';
 import pet from "@/shared/assets/pet.png";
@@ -27,7 +30,7 @@ export default function ShelterAnimalTableBody(rows: AnimalRow[], placeholder = 
                 const animalIdentifier = (row.name || row.type || "animal");
 
                 return (
-                    <ShelterTableRow key={animalIdentifier + index}>
+                    <ShelterTableRow className="shelter-table-animal__row" key={animalIdentifier + index}>
                         <ShelterTableCell>
                             <img className="thumbnail-photo" src={pet} alt={animalIdentifier}/>
                         </ShelterTableCell>
@@ -36,7 +39,11 @@ export default function ShelterAnimalTableBody(rows: AnimalRow[], placeholder = 
                         <ShelterTableCell align="left">{row.breed || placeholder}</ShelterTableCell>
                         <ShelterTableCell align="left">{row.gender || placeholder}</ShelterTableCell>
                         <ShelterTableCell align="left">{row.color || placeholder}</ShelterTableCell>
-                        <ShelterTableCell align="right">Details</ShelterTableCell>
+                        <ShelterTableCell align="right">
+                            <Button className="" endIcon={<ChevronRightIcon />}>
+                                Details
+                            </Button>
+                        </ShelterTableCell>
                     </ShelterTableRow>
                 )
             })}

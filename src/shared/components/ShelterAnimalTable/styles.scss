@@ -1,0 +1,25 @@
+.shelter-table-animal{
+    
+    &__box{
+        background-color: var(--background-primary);
+        padding: var(--spacing-size-md);
+        border-radius: 12px;
+    }
+
+    &__header{
+        margin-bottom: var(--spacing-size-sm);
+    }
+
+    &__pagination{
+        margin-top: 16px;
+    }
+
+    &__row{
+        button {
+            font-weight: 600;
+            text-transform: initial;
+            font-size: 16px;
+            color: var(--blue-color);
+        }
+    }
+}
