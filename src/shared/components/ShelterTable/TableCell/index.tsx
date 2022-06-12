@@ -6,6 +6,7 @@ type Props = {
     align?: "inherit" | "left" | "center" | "right" | "justify" | undefined;
     colSpan?: number;
     children?: React.ReactNode;
+    style?: React.CSSProperties;
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -19,9 +20,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-export default function ShelterTableCell({children, align = "left", colSpan = 1}: Props): JSX.Element {
+export default function ShelterTableCell({children, align = "left", colSpan = 1, style}: Props): JSX.Element {
     return (
-        <StyledTableCell colSpan={colSpan} align={align}>
+        <StyledTableCell colSpan={colSpan} align={align} style={style}>
             {children}
         </StyledTableCell>
     )

@@ -11,13 +11,17 @@ import "./styles.scss";
 
 type Props = {
   content: AnimalRow[];
+  totalAnimals: number;
+  count: number;
+  page: number;
+  handlePageChange: (event: React.ChangeEvent<unknown>, page: number) => void
 }
 
-function ShelterAnimalTable({content}: Props) {
+function ShelterAnimalTable({content, totalAnimals, count, page, handlePageChange}: Props) {
   return (
     <Container maxWidth="xl" className="shelter-table-animal">
         <Box className="shelter-table-animal__box">
-          <ShelterAnimalHeader />
+          <ShelterAnimalHeader totalAnimals={totalAnimals}/>
           <ShelterTable 
             tableHeadContent={TableHead()}
             tableBodyContent={TableBody(content)} 
@@ -25,12 +29,13 @@ function ShelterAnimalTable({content}: Props) {
           <Pagination 
             className="shelter-table-animal__pagination" 
             size="large"  
-            count={10} 
-            boundaryCount={10} 
+            count={count} 
+            page={page} 
             variant="outlined" 
             hidePrevButton 
             hideNextButton 
             color="primary"
+            onChange={handlePageChange}
           />
         </Box>
     </Container>

@@ -11,7 +11,6 @@ export default function ShelterSearch({id = "search-input"}: Props): JSX.Element
         <TextField  
             id={id}
             variant="outlined"
-            defaultValue="Search"
             hiddenLabel
             fullWidth
             placeholder="Search an animal by name"

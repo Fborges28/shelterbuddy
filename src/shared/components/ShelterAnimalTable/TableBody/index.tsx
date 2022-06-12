@@ -31,15 +31,31 @@ export default function ShelterAnimalTableBody(rows: AnimalRow[], placeholder = 
 
                 return (
                     <ShelterTableRow className="shelter-table-animal__row" key={animalIdentifier + index}>
-                        <ShelterTableCell>
+                        <ShelterTableCell style={{width: "10%"}}>
                             <img className="thumbnail-photo" src={pet} alt={animalIdentifier}/>
                         </ShelterTableCell>
-                        <ShelterTableCell align="left">{row.name || placeholder}</ShelterTableCell>
-                        <ShelterTableCell align="left">{row.type || placeholder}</ShelterTableCell>
-                        <ShelterTableCell align="left">{row.breed || placeholder}</ShelterTableCell>
-                        <ShelterTableCell align="left">{row.gender || placeholder}</ShelterTableCell>
-                        <ShelterTableCell align="left">{row.color || placeholder}</ShelterTableCell>
-                        <ShelterTableCell align="right">
+
+                        <ShelterTableCell align="left" style={{width: "10%"}}>
+                            {row.name || placeholder}
+                        </ShelterTableCell>
+
+                        <ShelterTableCell align="left" style={{width: "10%"}}>
+                            {row.type || placeholder}
+                        </ShelterTableCell>
+
+                        <ShelterTableCell align="left" style={{width: "30%"}}>
+                            {row.breed || placeholder}
+                        </ShelterTableCell>
+
+                        <ShelterTableCell align="left" style={{width: "10%"}}>
+                            {row.gender || placeholder}
+                        </ShelterTableCell>
+
+                        <ShelterTableCell align="left" style={{width: "20%"}}>
+                            {row.color || placeholder}
+                        </ShelterTableCell>
+
+                        <ShelterTableCell align="right" style={{width: "10%"}}>
                             <Button className="" endIcon={<ChevronRightIcon />}>
                                 Details
                             </Button>
