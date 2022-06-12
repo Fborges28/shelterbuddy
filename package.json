@@ -47,12 +47,14 @@
     ]
   },
   "devDependencies": {
+    "jest-fetch-mock": "^3.0.3",
     "react-app-rewire-alias": "^1.1.7",
     "react-app-rewired": "^2.2.1"
   },
   "jest": {
+    "automock": false,
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
-    } 
+    }
   }
 }

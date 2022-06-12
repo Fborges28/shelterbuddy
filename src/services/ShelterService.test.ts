@@ -1,30 +1,34 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ShelterData, AnimalModel } from './shelter.model';
+import animalListGetter from "./ShelterService";
+import AnimalListMock from "./mock/AnimalList.json";
 
 describe('Requests from the ShelterBuddy Animal API', () => {
-  let animalListResponse: Response;
-  let animalListJSON: ShelterData;
-
-  beforeEach(async () => {
-    animalListResponse = await fetch("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
-    animalListJSON = await animalListResponse.json();
+  beforeEach(() => {
+    fetchMock.resetMocks();
   })
 
-  it("expect that API returns status 200 (OK)", () => {
-    expect(animalListResponse.status).toBe(200);
+  it("expect that API returns status 200 (OK)", async() => {
+    fetchMock.mockOnce(JSON.stringify(AnimalListMock), { status: 200 });
+    const res = await animalListGetter();
+    expect(res.status).toEqual(200);
   });
 
-  it("retrieves the AnimalList endpoint data", () => {
-    expect(animalListJSON).toBeDefined();
+  it("expect that API has been called once with the correct URL", async() => {
+    fetchMock.mockOnce(JSON.stringify(AnimalListMock));
+    const res = await animalListGetter();
+    expect(fetchMock.mock.calls.length).toEqual(1);
+    expect(fetchMock).toHaveBeenCalledWith("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
   });
 
-  it("expect that all animals have name", () => {
-    const animalHasName = (animal: AnimalModel) => animal.Name;
-    let animalsHaveName = animalListJSON.Data.every(animalHasName);
-    expect(animalsHaveName).toBe(true);
+  it("retrieves the AnimalList endpoint data", async() => {
+    fetchMock.mockOnce(JSON.stringify(AnimalListMock));
+    const res = await animalListGetter();
+    const data: ShelterData = await res.json();
+    expect(data).toBeDefined();
+    expect(data.Data.length).toBeGreaterThan(0);
   });
-
 
   it.todo("get the animal total list count");
   it.todo("retrieves the AnimalPhotoList endpoint data");
