@@ -4,21 +4,21 @@ import { styled } from '@mui/material/styles';
 
 type Props = {
     children?: React.ReactNode;
+    className?: string;
 }
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-    },
+    backgroundColor: "var(--light-gray-color)",
+    border: "none",
     // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
 }));
 
-export default function ShelterTableRow({children}: Props): JSX.Element {
+export default function ShelterTableRow({children, className = ""}: Props): JSX.Element {
     return (
-        <StyledTableRow>
+        <StyledTableRow className={className}>
             {children}
         </StyledTableRow>
     )

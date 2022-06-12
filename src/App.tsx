@@ -1,46 +1,66 @@
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import ShelterHeader from '@/shared/components/ShelterHeader';
-import { Paper } from '@mui/material';
 
+import ShelterHeader from '@/shared/components/ShelterHeader';
 import ShelterAnimalTable from '@/shared/components/ShelterAnimalTable';
 import {createAnimalRow} from "@/shared/components/ShelterAnimalTable/TableBody";
 
 const rows = [
     createAnimalRow({
-      name: "",
-      type: "dog",
-      breed: "",
-      gender: "female",
-      color: "white"
+      name: "Anny",
+      type: "Dog",
+      breed: "Domestic Short Hair",
+      gender: "Female",
+      color: "Blue Cream Calico"
     }),
     createAnimalRow({
       name: "Anny",
-      type: "dog",
-      breed: "poodle",
-      gender: "female",
-      color: "black"
+      type: "Dog",
+      breed: "American Bulldog",
+      gender: "Female",
+      color: "Tabby"
     }),
     createAnimalRow({
       name: null,
-      type: "dog",
-      breed: "",
-      gender: "",
-      color: "black"
+      type: "Cat",
+      breed: "Domestic Short Hair",
+      gender: "Female",
+      color: "Black"
+    }),
+    createAnimalRow({
+      name: "Anny",
+      type: "Dog",
+      breed: "Poodle",
+      gender: "Female",
+      color: "Black"
+    }),
+    createAnimalRow({
+      name: "Anny",
+      type: "Dog",
+      breed: "Caucasian Sheepdog / Ovtcharka",
+      gender: "Female",
+      color: "Black"
+    }),
+    createAnimalRow({
+      name: "Agatha",
+      type: "Cat",
+      breed: "Domestic Short Hair",
+      gender: "Female",
+      color: "Black"
+    }),
+    createAnimalRow({
+      name: "Aika",
+      type: "Cat",
+      breed: "Domestic Short Hair",
+      gender: "Female",
+      color: "Black"
     }),
 ]
 
 function App() {
   return (
-    <div className="App">
+    <main id="main-content" className="App">
       <ShelterHeader></ShelterHeader>
-      <Container fixed>
-        <Box sx={{ bgcolor: '#fff' }}>
-          <Paper elevation={0} />
-          <ShelterAnimalTable content={rows}/>
-        </Box>
-      </Container>
-    </div>
+      <ShelterAnimalTable content={rows}></ShelterAnimalTable>
+    </main>
   );
 }
 

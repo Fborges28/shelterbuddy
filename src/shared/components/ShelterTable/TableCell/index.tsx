@@ -4,10 +4,12 @@ import { styled } from '@mui/material/styles';
 
 type Props = {
     align?: "inherit" | "left" | "center" | "right" | "justify" | undefined;
+    colSpan?: number;
     children?: React.ReactNode;
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    borderBottom: "0px",
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.white,
         color: theme.palette.common.black
@@ -17,9 +19,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-export default function ShelterTableCell({children, align}: Props): JSX.Element {
+export default function ShelterTableCell({children, align = "left", colSpan = 1}: Props): JSX.Element {
     return (
-        <StyledTableCell align={align}>
+        <StyledTableCell colSpan={colSpan} align={align}>
             {children}
         </StyledTableCell>
     )
