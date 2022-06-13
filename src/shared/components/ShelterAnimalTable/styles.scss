@@ -12,6 +12,12 @@
 
     &__pagination{
         margin-top: 16px;
+        overflow-x: scroll;
+        padding-bottom: 15px;
+
+        > ul {
+            flex-wrap: nowrap;
+        }
     }
 
     &__row{
