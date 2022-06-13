@@ -20,7 +20,6 @@ export function usePagination<PaginationData>(data: PaginationData[], perPage: n
         const sliceBegin = (currentPage - 1) * perPage;
         const sliceEnd = sliceBegin + perPage;
         const result = currentData.slice(sliceBegin, sliceEnd);
-        console.log("sliceContent", result);
         setSlicedContent(result);
     }
 

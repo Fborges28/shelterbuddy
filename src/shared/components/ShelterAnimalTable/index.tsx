@@ -13,12 +13,14 @@ import animalListGetter from '@/services/ShelterService';
 import { ShelterData, AnimalModel } from '@/services/shelter.model';
 
 import "./styles.scss";
+import { Stack, Typography } from '@mui/material';
 
 function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
   const [shelterAnimalData, setShelterAnimalData] = useState<AnimalRow[]>([]);
   const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<AnimalRow[]>([]);
   const [totalAnimals, setTotalAnimals] = useState(0);
+  const [keyword, setKeyword] = useState("");
   const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const { slicedContent, sliceContent, goTo } = usePagination<AnimalRow>(shelterAnimalFiltered, ROWS_PER_PAGE);
@@ -37,28 +39,35 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
     sliceContent(rows);
   }
 
-  function searchState(result: AnimalRow[]){
+  function searchFoundState(result: AnimalRow[]){
     setShelterAnimalFiltered(result);
     setPagination(Math.ceil(result.length / ROWS_PER_PAGE));
     sliceContent(result);
   }
 
-  function searchByName(name: string | null): AnimalRow[]{
+  function searchNotFoundState(){
+    sliceContent([]);
+  }
+
+  function searchByName(data: AnimalRow[], name: string | null): AnimalRow[]{
     if(name){
-      return shelterAnimalData.filter(animal => animal.name?.toLocaleLowerCase().includes(name));
+      return data.filter(animal => animal.name?.toLocaleLowerCase().includes(name));
     } else {
-      return shelterAnimalData;
+      return data;
     }
   }
 
   function handleSearch(keyword: string): void {
-    const searchResult = searchByName(keyword);
-    searchUserFlow(keyword, searchResult);
+    const searchResult = searchByName(shelterAnimalData, keyword);
+    setKeyword(keyword);
+    searchUserFlow(searchResult, keyword);
   }
 
-  function searchUserFlow(keyword: string, result: AnimalRow[]){
-    if(keyword){
-      searchState(result);
+  function searchUserFlow(result: AnimalRow[], keyword: string){
+    if(keyword && result.length > 0){
+      searchFoundState(result);
+    } else if (keyword && result.length == 0){
+      searchNotFoundState();
     } else {
       resetState();
     }
@@ -97,9 +106,9 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
   }, []);
 
   useEffect(() => {
-    sliceContent(shelterAnimalFiltered);
+    sliceContent(shelterAnimalFiltered)
   }, [currentPage])
- 
+
   return (
     <Container maxWidth="xl" className="shelter-table-animal">
         <Box className="shelter-table-animal__box">
@@ -108,6 +117,7 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
             totalAnimals={totalAnimals}
           />
           <RenderAnimalTable 
+            keyword={keyword}
             content={slicedContent} 
             handlePageChange={handlePageChange} 
             count={pagination} 
@@ -122,11 +132,13 @@ function RenderAnimalTable({
   content, 
   count, 
   page, 
+  keyword,
   handlePageChange 
 }: { 
   content: AnimalRow[];
   count: number;
   page: number;
+  keyword: string;
   handlePageChange: (event: ChangeEvent<unknown>, page: number) => void
 }): JSX.Element{
   const [rows, setRows] = useState(content);
@@ -143,9 +155,18 @@ function RenderAnimalTable({
   return(
     <>
           <ShelterTable 
-            tableHeadContent={TableHead()}
+            tableHeadContent={rows.length > 0 ? TableHead() : <></>}
             tableBodyContent={TableBody(rows)} 
           />
+
+          {
+             rows.length == 0 && (
+                <Stack direction="row" spacing={2} mt={8} mb={8} justifyContent="center">
+                  <Typography variant="h5" style={{color: "var(--dark-gray-color)"}}>No results founds for: {keyword}</Typography>
+                </Stack>
+             )
+          }
+
           {
             rows.length > 0 && (
               <Pagination 
