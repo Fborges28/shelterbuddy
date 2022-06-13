@@ -5,19 +5,23 @@ import { useState } from "react";
 interface Props<T> {
     next: () => void,
     prev: () => void,
+    sliceContent: (data: T[]) => void,
     goTo: (page: number) => void,
-    currentContent: () => T[],
+    slicedContent: T[],
     maxPage: number
 }
 
 export function usePagination<PaginationData>(data: PaginationData[], perPage: number): Props<PaginationData>{
     const [currentPage, setCurrentPage] = useState(1);
+    const [slicedContent, setSlicedContent] = useState(data);
     const maxPage = Math.ceil(data.length / perPage);
 
-    function currentContent(){
+    function sliceContent(currentData: PaginationData[]){
         const sliceBegin = (currentPage - 1) * perPage;
         const sliceEnd = sliceBegin + perPage;
-        return data.slice(sliceBegin, sliceEnd);
+        const result = currentData.slice(sliceBegin, sliceEnd);
+        console.log("sliceContent", result);
+        setSlicedContent(result);
     }
 
     function next(){
@@ -34,7 +38,8 @@ export function usePagination<PaginationData>(data: PaginationData[], perPage: n
     }
 
     return {
-        currentContent,
+        slicedContent,
+        sliceContent,
         next,
         prev,
         goTo,

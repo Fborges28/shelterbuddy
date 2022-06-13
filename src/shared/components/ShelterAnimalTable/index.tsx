@@ -16,12 +16,64 @@ import "./styles.scss";
 
 function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
-  const [shelterAnimalList, setShelterAnimalList] = useState<AnimalRow[]>([]);
+  const [shelterAnimalData, setShelterAnimalData] = useState<AnimalRow[]>([]);
+  const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<AnimalRow[]>([]);
   const [totalAnimals, setTotalAnimals] = useState(0);
-  const [numberOfPages, setNumberOfPages] = useState(0);
-  const [isSearching, setIsSearching] = useState(false);
+  const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const { currentContent, goTo } = usePagination<AnimalRow>(shelterAnimalList, ROWS_PER_PAGE);
+  const { slicedContent, sliceContent, goTo } = usePagination<AnimalRow>(shelterAnimalFiltered, ROWS_PER_PAGE);
+
+  function resetState(){
+    setShelterAnimalFiltered(shelterAnimalData);
+    sliceContent(shelterAnimalData);
+    setPagination(Math.ceil(shelterAnimalData.length / ROWS_PER_PAGE));
+  }
+
+  function initialState(rows: AnimalRow[]){
+    setShelterAnimalData(rows);
+    setShelterAnimalFiltered(rows);
+    setTotalAnimals(rows.length);
+    setPagination(Math.ceil(rows.length / ROWS_PER_PAGE))
+    sliceContent(rows);
+  }
+
+  function searchState(result: AnimalRow[]){
+    setShelterAnimalFiltered(result);
+    setPagination(Math.ceil(result.length / ROWS_PER_PAGE));
+    sliceContent(result);
+  }
+
+  function searchByName(name: string | null): AnimalRow[]{
+    if(name){
+      return shelterAnimalData.filter(animal => animal.name?.toLocaleLowerCase().includes(name));
+    } else {
+      return shelterAnimalData;
+    }
+  }
+
+  function handleSearch(keyword: string): void {
+    const searchResult = searchByName(keyword);
+    searchUserFlow(keyword, searchResult);
+  }
+
+  function searchUserFlow(keyword: string, result: AnimalRow[]){
+    if(keyword){
+      searchState(result);
+    } else {
+      resetState();
+    }
+
+    changeTablePage(1);
+  }
+  
+  function changeTablePage (page: number): void {
+    setCurrentPage(page);
+    goTo(page);
+  }
+
+  function handlePageChange(event: React.ChangeEvent<unknown>, page: number): void {
+    changeTablePage(page);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,36 +90,16 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
         })
       })
 
-      setShelterAnimalList(rows);
-      setTotalAnimals(rows.length);
-      setNumberOfPages(Math.ceil(rows.length / ROWS_PER_PAGE))
+      initialState(rows);
     };
 
     fetchData().catch(console.error);
-  }, [])
-  
+  }, []);
 
-  function searchByName(animalList: AnimalRow[], name: string | null): AnimalRow[]{
-    if(name){
-      return animalList.filter(animal => animal.name?.toLocaleLowerCase().includes(name));
-    } else {
-      return shelterAnimalList;
-    }
-  }
-
-  function handleSearch(name: string): void {
-    setShelterAnimalList(searchByName(shelterAnimalList, name));
-  }
-  
-  function changeTablePage (page: number): void {
-    setCurrentPage(page);
-    goTo(page);
-  }
-
-  function handlePageChange(event: React.ChangeEvent<unknown>, page: number): void {
-    changeTablePage(page);
-  }
-
+  useEffect(() => {
+    sliceContent(shelterAnimalFiltered);
+  }, [currentPage])
+ 
   return (
     <Container maxWidth="xl" className="shelter-table-animal">
         <Box className="shelter-table-animal__box">
@@ -75,20 +107,18 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
             handleSearch={handleSearch}
             totalAnimals={totalAnimals}
           />
-          {
-            renderAnimalTable({
-              content: currentContent(), 
-              count: numberOfPages, 
-              page: currentPage, 
-              handlePageChange
-            })
-          }
+          <RenderAnimalTable 
+            content={slicedContent} 
+            handlePageChange={handlePageChange} 
+            count={pagination} 
+            page={currentPage}
+          />
         </Box>
     </Container>
   )
 }
 
-function renderAnimalTable({ 
+function RenderAnimalTable({ 
   content, 
   count, 
   page, 
@@ -98,20 +128,31 @@ function renderAnimalTable({
   count: number;
   page: number;
   handlePageChange: (event: ChangeEvent<unknown>, page: number) => void
-}){
+}): JSX.Element{
+  const [rows, setRows] = useState(content);
+  const [pagination, setPagination] = useState(page);
+
+  useEffect(() => {
+    setPagination(page)
+  }, [page])
+
+  useEffect(() => {
+    setRows(content);
+  }, [content])
+
   return(
     <>
           <ShelterTable 
             tableHeadContent={TableHead()}
-            tableBodyContent={TableBody(content)} 
+            tableBodyContent={TableBody(rows)} 
           />
           {
-            content.length > 0 && (
+            rows.length > 0 && (
               <Pagination 
                 className="shelter-table-animal__pagination" 
                 size="large"  
                 count={count} 
-                page={page} 
+                page={pagination} 
                 variant="outlined" 
                 hidePrevButton 
                 hideNextButton 
