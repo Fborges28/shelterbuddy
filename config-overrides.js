@@ -6,6 +6,7 @@ module.exports = function override(config) {
     '@/infrastructure': 'src/infrastructure',
     '@/routes': 'src/routes',
     '@/services': 'src/services',
+    '@/utils': 'src/utils',
     '@/shared': 'src/shared'
   })(config);
 
