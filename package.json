@@ -12,7 +12,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
+    "@types/jest": "^28.1.1",
     "@types/node": "^16.11.39",
     "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test --verbose --detectOpenHandles",
+    "test": "react-app-rewired test --verbose",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -50,15 +50,31 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
+    "@types/jest-axe": "^3.5.3",
+    "babel-jest": "^28.1.1",
     "gh-pages": "^4.0.0",
+    "jest": "^28.1.1",
+    "jest-axe": "^6.0.0",
+    "jest-environment-jsdom": "^28.1.1",
     "jest-fetch-mock": "^3.0.3",
     "react-app-rewire-alias": "^1.1.7",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "ts-jest": "^28.0.4"
   },
   "jest": {
+    "testEnvironment": "jest-environment-jsdom",
     "automock": false,
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
     }
   }
 }

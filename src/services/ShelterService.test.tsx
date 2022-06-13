@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { ShelterData, AnimalModel } from './shelter.model';
+import { ShelterAnimalList } from '@/domain/models/api/ShelterAnimalList.model';
 import animalListGetter from "./ShelterService";
 import AnimalListMock from "./mock/AnimalList.json";
 
@@ -25,7 +24,7 @@ describe('Requests from the ShelterBuddy Animal API', () => {
   it("retrieves the AnimalList endpoint data", async() => {
     fetchMock.mockOnce(JSON.stringify(AnimalListMock));
     const res = await animalListGetter();
-    const data: ShelterData = await res.json();
+    const data: ShelterAnimalList = await res.json();
     expect(data).toBeDefined();
     expect(data.Data.length).toBeGreaterThan(0);
   });
