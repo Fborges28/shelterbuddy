@@ -2,14 +2,17 @@ import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
-import { Animal, createAnimalRow } from '@/shared/components/ShelterAnimalTable/TableBody';
-import { ShelterData, AnimalModel } from '@/services/shelter.model';
 import { usePagination } from '@/shared/hooks/Pagination';
 import { sortAsc } from '@/shared/utils/ArrayUtils';
 
 import ShelterAnimalHeader from '@/shared/components/ShelterAnimalTable/Header';
 import animalListGetter from '@/services/ShelterService';
 import RenderAnimalTable from '@/shared/components/ShelterAnimalTable/Table';
+
+import { Animal } from '@/domain/models/Animal.model';
+import { AnimalAPIModel } from '@/domain/models/api/Animal.model';
+import { ShelterAnimalList } from '@/domain/models/api/ShelterAnimalList.model';
+import { createAnimalRow } from './animalRow';
 
 import "./styles.scss";
 
@@ -84,12 +87,13 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log("passou aqui")
       const data = await animalListGetter();
-      const result: ShelterData = await data.json();
+      const result: ShelterAnimalList = await data.json();
 
-      const sorted = result.Data.sort((a, b) => sortAsc(a.Name, b.Name));
+      const sorted = result.Data.sort((a:any, b:any) => sortAsc(a.Name, b.Name));
 
-      const rows = sorted.map((animal: AnimalModel) => {
+      const rows = sorted.map((animal: AnimalAPIModel) => {
         return createAnimalRow({
           name: animal.Name,
           type: animal.Type.Name,

@@ -1,4 +1,4 @@
-import { ShelterData } from "./shelter.model";
+import { ShelterAnimalList } from "@/domain/models/api/ShelterAnimalList.model";
 
 async function animalListGetter(): Promise<any> {
     try {

@@ -4,24 +4,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ShelterTableRow from '@/shared/components/ShelterTable/TableRow';
 import ShelterTableCell from '@/shared/components/ShelterTable/TableCell';
 import pet from "@/shared/assets/pet.png";
-
-export interface Animal {
-    name: string   | null,
-    type: string   | null,
-    breed: string  | null,
-    gender: string | null,
-    color: string  | null
-}
-
-export function createAnimalRow({name, type, breed, gender, color}: Animal): Animal{
-    return {
-        name, 
-        type, 
-        breed, 
-        gender, 
-        color
-    }
-}
+import { Animal } from '@/domain/models/Animal.model';
 
 export default function ShelterAnimalTableBody(rows: Animal[], placeholder = "-"){
     return(

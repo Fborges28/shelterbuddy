@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
-import { InputHTMLAttributes, useEffect, useState } from 'react';
+import { InputHTMLAttributes, useState } from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
     id: string,

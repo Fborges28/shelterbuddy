@@ -1,4 +1,4 @@
-export interface AnimalModel {
+export interface AnimalAPIModel {
     "Name": string,
     "DateOfBirthUtc": Date,
     "License": { "Tag": string | null, "Issuer": string | null },
@@ -200,16 +200,4 @@ export interface AnimalModel {
     "DistinguishingFeatures": string,
     "DueDateOutUtc": string,
     "Id": number
-}
-
-export interface ShelterPagination{
-    Next:string
-    Previous: number | null;
-    TotalPages: number
-    TotalResults: number
-}
-
-export interface ShelterData{
-    Data: AnimalModel[],
-    Paging: ShelterPagination
 }
