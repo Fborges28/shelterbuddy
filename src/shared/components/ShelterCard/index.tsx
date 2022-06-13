@@ -16,10 +16,10 @@ function ShelterAnimalCard({name, breed , color , gender , type }: Animal) {
             </Stack>
         </AccordionSummary>
         <AccordionDetails>
-            <Typography>Type: {type}</Typography>
-            <Typography>Breed: {breed}</Typography>
-            <Typography>Gender: {gender}</Typography>
-            <Typography>Color: {color}</Typography>
+            <Typography>Type: {type || "-"}</Typography>
+            <Typography>Breed: {breed || "-"}</Typography>
+            <Typography>Gender: {gender || "-"}</Typography>
+            <Typography>Color: {color || "-"}</Typography>
         </AccordionDetails>
         <AccordionActions>
             <Button 
