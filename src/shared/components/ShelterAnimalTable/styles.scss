@@ -29,3 +29,12 @@
         }
     }
 }
+
+@media screen and (min-width: 560px) {
+    .shelter-table-animal{
+        &__pagination{
+            overflow-x: hidden;
+            padding-bottom: 0px;
+        }
+    }
+}
