@@ -71,7 +71,7 @@ export default function RenderAnimalTable({
 
                         <Grid item xs={12} >
                             <Pagination 
-                                className="shelter-table-animal__pagination" 
+                                className="shelter-table-animal__pagination pagination" 
                                 size="large"  
                                 count={count} 
                                 page={pagination} 

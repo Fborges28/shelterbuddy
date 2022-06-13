@@ -13,7 +13,7 @@ import RenderAnimalTable from '@/shared/components/ShelterAnimalTable/Table';
 
 import "./styles.scss";
 
-function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
+function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
   const [shelterAnimalData, setShelterAnimalData] = useState<Animal[]>([]);
   const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<Animal[]>([]);
