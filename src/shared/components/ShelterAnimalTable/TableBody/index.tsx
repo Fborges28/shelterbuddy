@@ -5,7 +5,7 @@ import ShelterTableRow from '@/shared/components/ShelterTable/TableRow';
 import ShelterTableCell from '@/shared/components/ShelterTable/TableCell';
 import pet from "@/shared/assets/pet.png";
 
-export interface AnimalRow {
+export interface Animal {
     name: string   | null,
     type: string   | null,
     breed: string  | null,
@@ -13,7 +13,7 @@ export interface AnimalRow {
     color: string  | null
 }
 
-export function createAnimalRow({name, type, breed, gender, color}: AnimalRow): AnimalRow{
+export function createAnimalRow({name, type, breed, gender, color}: Animal): Animal{
     return {
         name, 
         type, 
@@ -23,7 +23,7 @@ export function createAnimalRow({name, type, breed, gender, color}: AnimalRow): 
     }
 }
 
-export default function ShelterAnimalTableBody(rows: AnimalRow[], placeholder = "-"){
+export default function ShelterAnimalTableBody(rows: Animal[], placeholder = "-"){
     return(
         <>
             {rows.map((row, index) => {
@@ -56,7 +56,7 @@ export default function ShelterAnimalTableBody(rows: AnimalRow[], placeholder = 
                         </ShelterTableCell>
 
                         <ShelterTableCell align="right" style={{width: "10%"}}>
-                            <Button className="" endIcon={<ChevronRightIcon />}>
+                            <Button className="" endIcon={<ChevronRightIcon />} onClick={() => alert('details')}>
                                 Details
                             </Button>
                         </ShelterTableCell>

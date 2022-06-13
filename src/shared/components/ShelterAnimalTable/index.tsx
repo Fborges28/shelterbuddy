@@ -1,29 +1,27 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Pagination from '@mui/material/Pagination';
 
-import TableHead from '@/shared/components/ShelterAnimalTable/TableHead';
-import TableBody, { AnimalRow, createAnimalRow } from '@/shared/components/ShelterAnimalTable/TableBody';
-import ShelterTable from '@/shared/components/ShelterTable';
-import ShelterAnimalHeader from '@/shared/components/ShelterAnimalTable/Header';
-
-import { usePagination } from '@/shared/hooks/Pagination';
-import animalListGetter from '@/services/ShelterService';
+import { Animal, createAnimalRow } from '@/shared/components/ShelterAnimalTable/TableBody';
 import { ShelterData, AnimalModel } from '@/services/shelter.model';
+import { usePagination } from '@/shared/hooks/Pagination';
+import { sortAsc } from '@/shared/utils/ArrayUtils';
+
+import ShelterAnimalHeader from '@/shared/components/ShelterAnimalTable/Header';
+import animalListGetter from '@/services/ShelterService';
+import RenderAnimalTable from '@/shared/components/ShelterAnimalTable/Table';
 
 import "./styles.scss";
-import { Stack, Typography } from '@mui/material';
 
 function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
-  const [shelterAnimalData, setShelterAnimalData] = useState<AnimalRow[]>([]);
-  const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<AnimalRow[]>([]);
+  const [shelterAnimalData, setShelterAnimalData] = useState<Animal[]>([]);
+  const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<Animal[]>([]);
   const [totalAnimals, setTotalAnimals] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const { slicedContent, sliceContent, goTo } = usePagination<AnimalRow>(shelterAnimalFiltered, ROWS_PER_PAGE);
+  const { slicedContent, sliceContent, goTo } = usePagination<Animal>(shelterAnimalFiltered, ROWS_PER_PAGE);
 
   function resetState(){
     setShelterAnimalFiltered(shelterAnimalData);
@@ -31,7 +29,7 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
     setPagination(Math.ceil(shelterAnimalData.length / ROWS_PER_PAGE));
   }
 
-  function initialState(rows: AnimalRow[]){
+  function initialState(rows: Animal[]){
     setShelterAnimalData(rows);
     setShelterAnimalFiltered(rows);
     setTotalAnimals(rows.length);
@@ -39,7 +37,7 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
     sliceContent(rows);
   }
 
-  function searchFoundState(result: AnimalRow[]){
+  function searchFoundState(result: Animal[]){
     setShelterAnimalFiltered(result);
     setPagination(Math.ceil(result.length / ROWS_PER_PAGE));
     sliceContent(result);
@@ -49,9 +47,9 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
     sliceContent([]);
   }
 
-  function searchByName(data: AnimalRow[], name: string | null): AnimalRow[]{
+  function searchByName(data: Animal[], name: string | null): Animal[]{
     if(name){
-      return data.filter(animal => animal.name?.toLocaleLowerCase().includes(name));
+      return data.filter(animal => animal.name?.toLowerCase().includes(name.toLowerCase()));
     } else {
       return data;
     }
@@ -63,7 +61,7 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
     searchUserFlow(searchResult, keyword);
   }
 
-  function searchUserFlow(result: AnimalRow[], keyword: string){
+  function searchUserFlow(result: Animal[], keyword: string){
     if(keyword && result.length > 0){
       searchFoundState(result);
     } else if (keyword && result.length == 0){
@@ -89,7 +87,9 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
       const data = await animalListGetter();
       const result: ShelterData = await data.json();
 
-      const rows = result.Data.map((animal: AnimalModel) => {
+      const sorted = result.Data.sort((a, b) => sortAsc(a.Name, b.Name));
+
+      const rows = sorted.map((animal: AnimalModel) => {
         return createAnimalRow({
           name: animal.Name,
           type: animal.Type.Name,
@@ -128,62 +128,6 @@ function ShelterAnimalTable({ perPage = 4 }): JSX.Element {
   )
 }
 
-function RenderAnimalTable({ 
-  content, 
-  count, 
-  page, 
-  keyword,
-  handlePageChange 
-}: { 
-  content: AnimalRow[];
-  count: number;
-  page: number;
-  keyword: string;
-  handlePageChange: (event: ChangeEvent<unknown>, page: number) => void
-}): JSX.Element{
-  const [rows, setRows] = useState(content);
-  const [pagination, setPagination] = useState(page);
 
-  useEffect(() => {
-    setPagination(page)
-  }, [page])
-
-  useEffect(() => {
-    setRows(content);
-  }, [content])
-
-  return(
-    <>
-          <ShelterTable 
-            tableHeadContent={rows.length > 0 ? TableHead() : <></>}
-            tableBodyContent={TableBody(rows)} 
-          />
-
-          {
-             rows.length == 0 && (
-                <Stack direction="row" spacing={2} mt={8} mb={8} justifyContent="center">
-                  <Typography variant="h5" style={{color: "var(--dark-gray-color)"}}>No results founds for: {keyword}</Typography>
-                </Stack>
-             )
-          }
-
-          {
-            rows.length > 0 && (
-              <Pagination 
-                className="shelter-table-animal__pagination" 
-                size="large"  
-                count={count} 
-                page={pagination} 
-                variant="outlined" 
-                hidePrevButton 
-                hideNextButton 
-                color="primary"
-                onChange={handlePageChange}
-              />
-            )
-          }
-    </>
-  )
-}
 
 export default ShelterAnimalTable
