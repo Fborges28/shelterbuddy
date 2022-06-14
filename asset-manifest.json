@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/shelterbuddy/static/css/main.bab6f955.css",
-    "main.js": "/shelterbuddy/static/js/main.e4883bc6.js",
-    "static/js/787.786b1c36.chunk.js": "/shelterbuddy/static/js/787.786b1c36.chunk.js",
+    "main.css": "/shelterbuddy/static/css/main.d4125a57.css",
+    "main.js": "/shelterbuddy/static/js/main.fbb3cc6e.js",
+    "static/js/651.70b744f2.chunk.js": "/shelterbuddy/static/js/651.70b744f2.chunk.js",
     "static/media/pet.png": "/shelterbuddy/static/media/pet.393fe2b7121ea0fc3f47.png",
     "static/media/logo_shelterbuddy.svg": "/shelterbuddy/static/media/logo_shelterbuddy.75bd51d8a210c4c2512d88799d7ac925.svg",
     "index.html": "/shelterbuddy/index.html",
-    "main.bab6f955.css.map": "/shelterbuddy/static/css/main.bab6f955.css.map",
-    "main.e4883bc6.js.map": "/shelterbuddy/static/js/main.e4883bc6.js.map",
-    "787.786b1c36.chunk.js.map": "/shelterbuddy/static/js/787.786b1c36.chunk.js.map"
+    "main.d4125a57.css.map": "/shelterbuddy/static/css/main.d4125a57.css.map",
+    "main.fbb3cc6e.js.map": "/shelterbuddy/static/js/main.fbb3cc6e.js.map",
+    "651.70b744f2.chunk.js.map": "/shelterbuddy/static/js/651.70b744f2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bab6f955.css",
-    "static/js/main.e4883bc6.js"
+    "static/css/main.d4125a57.css",
+    "static/js/main.fbb3cc6e.js"
   ]
 }
