@@ -4,25 +4,29 @@ import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { usePagination } from '@/shared/hooks/Pagination';
-import { sortOrder } from '@/shared/utils/ArrayUtils';
+import { compareById, sortOrder } from '@/shared/utils/ArrayUtils';
 
 import ShelterAnimalHeader from '@/shared/components/ShelterAnimalTable/Header';
 import fetchAPI from '@/services/ShelterService';
 import RenderAnimalTable from '@/shared/components/ShelterAnimalTable/Table';
 
 import { Animal } from '@/domain/models/Animal.model';
-import { AnimalAPIModel } from '@/domain/models/api/Animal.model';
+import { AnimalAPIModelWithPhoto } from '@/domain/models/api/Animal.model';
 import { ShelterAnimalListAPI } from '@/domain/models/api/ShelterAnimalList.model';
 import { createAnimalRow } from './animalRow';
 
 import { Stack, Typography } from '@mui/material';
 import { Order } from '@/domain/models/Order.model';
 
+import { ShelterAnimalPhotoListAPI } from '@/domain/models/api/ShelterAnimalPhotoList.model';
+
 import "./styles.scss";
 
 
 function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
+  const THUMBNAIL_BASE_URL = "https://shelterbuddy-us-uat.shelterbuddy.io";
+
   const [shelterAnimalData, setShelterAnimalData] = useState<Animal[]>([]);
   const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<Animal[]>([]);
   const [totalAnimals, setTotalAnimals] = useState(0);
@@ -97,22 +101,39 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
     changeTablePage(page);
   }
 
+  function createTableRows(rows: ShelterAnimalListAPI){
+    const sorted = rows.Data.sort((a:any, b:any) => sortOrder(a.Name, b.Name, "asc"));
+
+    return sorted.map((animal: AnimalAPIModelWithPhoto) => {
+      return createAnimalRow({
+        name: animal.Name,
+        type: animal.Type.Name,
+        breed: animal.Breed.Primary.Name,
+        gender: animal.Sex.Name,
+        color: animal.Features.PrimaryColour,
+        photo: animal.Photo ? THUMBNAIL_BASE_URL + animal.Photo.PhotoThumbnailFormat.replace("<size>-0-", "80-0-") : ""
+      })
+    })
+  }
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchAPI("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
-      const result: ShelterAnimalListAPI = await data.json();
+      const animalList = await fetchAPI("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
+      const animalListData: ShelterAnimalListAPI = await animalList.json();
 
-      const sorted = result.Data.sort((a:any, b:any) => sortOrder(a.Name, b.Name, "asc"));
+      const animalPhotoList = await fetchAPI("https://shelterbuddy.vercel.app/assets/data/AnimalPhotoList.json");
+      const animalPhotoListData: ShelterAnimalPhotoListAPI = await animalPhotoList.json();
 
-      const rows = sorted.map((animal: AnimalAPIModel) => {
-        return createAnimalRow({
-          name: animal.Name,
-          type: animal.Type.Name,
-          breed: animal.Breed.Primary.Name,
-          gender: animal.Sex.Name,
-          color: animal.Features.PrimaryColour
-        })
+      const relatedPhotoList = compareById(animalListData.Data, animalPhotoListData.Data);
+
+      animalListData.Data.forEach((animal: AnimalAPIModelWithPhoto, index:number) => {
+        const animalIndex = relatedPhotoList.findIndex(o => o.Animal.Id === animal.Id);
+        if (animalIndex > -1) {
+          (animalListData.Data[index] as AnimalAPIModelWithPhoto).Photo = relatedPhotoList[animalIndex];
+        }
       })
+
+      const rows = createTableRows(animalListData);
 
       initialState(rows);
       setIsLoading(false);

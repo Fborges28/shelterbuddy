@@ -1,0 +1,21 @@
+.shelter-table-animal__card{
+    p {
+        font-weight: 500;
+    }
+
+    &__icon{
+        border-radius: 50%;
+        color: #fff;
+        background-color: var(--primary-color);        
+    }
+
+
+    &__info__label{
+        color: #707183;
+    }
+
+    button{
+        color: #fff;
+        background-color: var(--primary-color);        
+    }
+}

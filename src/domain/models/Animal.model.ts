@@ -3,5 +3,6 @@ export interface Animal {
     type: string   | null,
     breed: string  | null,
     gender: string | null,
-    color: string  | null
+    color: string  | null,
+    photo?: string  | null
 }

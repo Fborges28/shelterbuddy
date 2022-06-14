@@ -1,3 +1,4 @@
+import { ShelterAnimalPhoto } from './ShelterAnimalPhotoList.model';
 export interface AnimalAPIModel {
     "Name": string,
     "DateOfBirthUtc": Date,
@@ -200,4 +201,8 @@ export interface AnimalAPIModel {
     "DistinguishingFeatures": string,
     "DueDateOutUtc": string,
     "Id": number
+}
+
+export interface AnimalAPIModelWithPhoto extends AnimalAPIModel {
+    Photo?: ShelterAnimalPhoto
 }

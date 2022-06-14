@@ -6,7 +6,7 @@ import ShelterTableCell from '@/shared/components/ShelterTable/TableCell';
 import pet from "@/shared/assets/pet.png";
 import { Animal } from '@/domain/models/Animal.model';
 
-export default function ShelterAnimalTableBody(rows: Animal[], placeholder = "-"){
+export default function ShelterAnimalTableBody({rows, placeholder = "-"} : { rows:  Animal[], placeholder: string }){
     return(
         <>
             {rows.map((row, index) => {
@@ -15,7 +15,7 @@ export default function ShelterAnimalTableBody(rows: Animal[], placeholder = "-"
                 return (
                     <ShelterTableRow className="shelter-table-animal__row" key={animalIdentifier + index}>
                         <ShelterTableCell style={{width: "10%"}}>
-                            <img className="thumbnail-photo" src={pet} alt={animalIdentifier}/>
+                            <img className="thumbnail-photo" src={row.photo || pet} alt={animalIdentifier}/>
                         </ShelterTableCell>
 
                         <ShelterTableCell align="left" style={{width: "10%"}}>

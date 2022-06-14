@@ -1,5 +1,6 @@
 import React from 'react';
 import {act, cleanup, findByText, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import AnimalPhotoListMock from "@/services/mock/AnimalPhotoList.json";
 import AnimalListMock from "@/services/mock/AnimalList.json";
 import ShelterAnimalTable from "./index";
 
@@ -24,6 +25,8 @@ describe('ShelterAnimalTable Unit Tests', () => {
 
     it("Must render pagination", async() => {
         fetchMock.mockOnce(JSON.stringify(AnimalListMock), { status: 200 });
+        fetchMock.mockOnce(JSON.stringify(AnimalPhotoListMock), { status: 200 });
+        
         let component: any;
 
         await act(async() => {
@@ -36,6 +39,8 @@ describe('ShelterAnimalTable Unit Tests', () => {
 
     it("Must render table content", async() => {
         fetchMock.mockOnce(JSON.stringify(AnimalListMock), { status: 200 });
+        fetchMock.mockOnce(JSON.stringify(AnimalPhotoListMock), { status: 200 });
+
         let component: any;
 
         await act(async() => {
@@ -48,6 +53,8 @@ describe('ShelterAnimalTable Unit Tests', () => {
 
     it("Must render table content after search", async() => {
         fetchMock.mockOnce(JSON.stringify(AnimalListMock), { status: 200 });
+        fetchMock.mockOnce(JSON.stringify(AnimalPhotoListMock), { status: 200 });
+
         let component: any;
 
         await act(async() => {
@@ -68,6 +75,8 @@ describe('ShelterAnimalTable Unit Tests', () => {
 
     it("Must render table feedback for no content", async() => {
         fetchMock.mockOnce(JSON.stringify(AnimalListMock), { status: 200 });
+        fetchMock.mockOnce(JSON.stringify(AnimalPhotoListMock), { status: 200 });
+        
         let component: any;
 
         await act(async() => {

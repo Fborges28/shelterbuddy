@@ -64,7 +64,9 @@ export default function RenderAnimalTable({
                                         rowCount={animalRows.length}
                                     /> : <></>
                                 }
-                                tableBodyContent={TableBody(animalRows)} 
+                                tableBodyContent={
+                                    <TableBody rows={animalRows} placeholder="-"/>
+                                } 
                             />
                         </Grid>
 
@@ -79,6 +81,7 @@ export default function RenderAnimalTable({
                                             type={animal.type}  
                                             gender={animal.gender}  
                                             color={animal.color}  
+                                            photo={animal.photo}  
                                             key={animalIdentifier + index} 
                                         />
                                     })
