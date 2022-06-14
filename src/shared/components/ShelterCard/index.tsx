@@ -13,14 +13,14 @@ function ShelterAnimalCard({name, breed , color , gender , type, photo }: Animal
         <AccordionSummary expandIcon={<ExpandMoreIcon className="shelter-table-animal__card__icon"/>} aria-controls="panel1a-content" id="panel1a-header">
             <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                 <img className="thumbnail-photo" src={photo || pet} alt="Animal"/>
-                <Typography>{name || "-"}</Typography>
+                <Typography data-testid="shelter-animal-card-name" className="shelter-table-animal__card__info">{name || "-"}</Typography>
             </Stack>
         </AccordionSummary>
         <AccordionDetails>
-            <Typography className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Type:</span>   {type || "-"}</Typography>
-            <Typography className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Breed:</span>  {breed || "-"}</Typography>
-            <Typography className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Gender:</span> {gender || "-"}</Typography>
-            <Typography className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Color:</span>  {color || "-"}</Typography>
+            <Typography data-testid="shelter-animal-card-type" className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Type: </span><span>{type   || "-"}</span></Typography>
+            <Typography data-testid="shelter-animal-card-breed" className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Breed: </span><span>{breed  || "-"}</span></Typography>
+            <Typography data-testid="shelter-animal-card-gender" className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Gender: </span><span>{gender || "-"}</span></Typography>
+            <Typography data-testid="shelter-animal-card-color" className="shelter-table-animal__card__info"><span className="shelter-table-animal__card__info__label">Color: </span><span>{color  || "-"}</span></Typography>
         </AccordionDetails>
         <AccordionActions>
             <Button 

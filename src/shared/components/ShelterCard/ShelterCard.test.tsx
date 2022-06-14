@@ -34,17 +34,17 @@ describe('ShelterCard Unit Tests', () => {
     it("Must render card content", async () => {
         render(<ShelterCard {...animalMock}/>)
 
-        const name = await screen.findByText("Abby");
-        const type = await screen.findByText("Type: Cat");
-        const breed = await screen.findByText("Breed: Domestic Short Hair");
-        const gender = await screen.findByText("Gender: Female");
-        const color = await screen.findByText("Color: Blue Cream Calico");
+        const name = screen.getByTestId('shelter-animal-card-name');
+        const type = screen.getByTestId('shelter-animal-card-type');
+        const breed = screen.getByTestId('shelter-animal-card-breed');
+        const gender = screen.getByTestId('shelter-animal-card-gender');
+        const color = screen.getByTestId('shelter-animal-card-color');
 
-        expect(name?.innerHTML).toBe(animalMock.name);
-        expect(type?.innerHTML).toBe("Type: " + animalMock.type);
-        expect(breed?.innerHTML).toBe("Breed: " + animalMock.breed);
-        expect(gender?.innerHTML).toBe("Gender: " + animalMock.gender);
-        expect(color?.innerHTML).toBe("Color: " + animalMock.color);
+        expect(name?.textContent).toBe(animalMock.name);
+        expect(type?.textContent).toBe("Type: " + animalMock.type);
+        expect(breed?.textContent).toBe("Breed: " + animalMock.breed);
+        expect(gender?.textContent).toBe("Gender: " + animalMock.gender);
+        expect(color?.textContent).toBe("Color: " + animalMock.color);
     });
     it("Card must be acessible", async() => {
         const { container} = render(<ShelterCard {...animalMock}/>)
