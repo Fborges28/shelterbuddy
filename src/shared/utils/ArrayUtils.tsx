@@ -1,7 +1,4 @@
 export function sortOrder(a:any, b:any, order = "asc"){
-
-    console.log("sortOrder", order)
-
     if(a === null) {
         return 1;
     }
