@@ -4,6 +4,7 @@ import ShelterSearch from '@/shared/components/ShelterSearch';
 
 type Props = {
     totalAnimals: number;
+    value?: string;
     handleSearch: (value: string) => void
 }
 

@@ -5,11 +5,12 @@ import { InputHTMLAttributes, useState } from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
     id: string,
+    value?: string;
     handleChange: (value: string) => void
 }
 
-export default function ShelterSearch({id = "search-input", handleChange}: Props): JSX.Element {
-    const [searchValue, setSearchValue] = useState("");
+export default function ShelterSearch({id = "search-input", value = "", handleChange}: Props): JSX.Element {
+    const [searchValue, setSearchValue] = useState(value);
 
     const _onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setSearchValue(e.currentTarget.value);

@@ -2,9 +2,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Stack, Typography, Grid, Pagination, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 
 import TableHead from '@/shared/components/ShelterAnimalTable/TableHead';
-import TableBody, { Animal } from '@/shared/components/ShelterAnimalTable/TableBody';
+import TableBody from '@/shared/components/ShelterAnimalTable/TableBody';
 import ShelterTable from '@/shared/components/ShelterTable';
 import ShelterCard from '@/shared/components/ShelterCard';
+import { Animal } from '@/domain/models/Animal.model';
 
 export default function RenderAnimalTable({ 
     content, 
@@ -35,7 +36,7 @@ export default function RenderAnimalTable({
             {
                 animalRows.length == 0 && (
                     <Grid item xs={12}>
-                        <Stack direction="row" spacing={2} mt={8} mb={8} justifyContent="center">
+                        <Stack direction="row" spacing={2} mt={8} mb={8} sx={{minHeight: "250px"}} justifyContent="center" alignItems="center">
                             <Typography variant="h5" style={{color: "var(--dark-gray-color)"}}>No results founds for: {keyword}</Typography>
                         </Stack>
                     </Grid>

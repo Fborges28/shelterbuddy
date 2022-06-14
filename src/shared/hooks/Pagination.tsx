@@ -8,7 +8,8 @@ interface Props<T> {
     sliceContent: (data: T[]) => void,
     goTo: (page: number) => void,
     slicedContent: T[],
-    maxPage: number
+    maxPage: number,
+    currentPage: number,
 }
 
 export function usePagination<PaginationData>(data: PaginationData[], perPage: number): Props<PaginationData>{
@@ -39,6 +40,7 @@ export function usePagination<PaginationData>(data: PaginationData[], perPage: n
     return {
         slicedContent,
         sliceContent,
+        currentPage,
         next,
         prev,
         goTo,

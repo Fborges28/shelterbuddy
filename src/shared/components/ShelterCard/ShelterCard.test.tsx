@@ -1,5 +1,5 @@
 import { Animal } from '@/domain/models/Animal.model';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import  { axe } from "jest-axe";
 import ShelterCard from "./index";
 
@@ -22,6 +22,14 @@ describe('ShelterCard Unit Tests', () => {
 
         const cardElement = document.querySelector(".shelter-table-animal__card");
         expect(cardElement).toBeInTheDocument();
+    });
+    it("Clicks on the details button", () => {
+        render(<ShelterCard breed="" color="" gender="" name="" type=""/>)
+        const spy = jest.spyOn(global.console, 'log');
+        const buttonElement = document.querySelector("button");
+        fireEvent.click(buttonElement!);
+        expect(global.console.log).toHaveBeenCalledWith("details");
+        spy.mockRestore();
     });
     it("Must render card content", async () => {
         render(<ShelterCard {...animalMock}/>)

@@ -27,7 +27,7 @@ function ShelterAnimalCard({name, breed , color , gender , type }: Animal) {
                 variant="contained" 
                 endIcon={<ChevronRightIcon />} 
                 fullWidth 
-                onClick={() => alert('details')}>
+                onClick={() => console.log('details')}>
                 Details
             </Button>
         </AccordionActions>

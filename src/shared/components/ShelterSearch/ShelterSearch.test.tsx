@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import  { axe } from "jest-axe";
 import ShelterSearch from "./index";
 
@@ -16,16 +16,40 @@ describe('ShelterSearch Unit Tests', () => {
         handleChange = jest.fn();
     })
 
-    it("Must render search with default info", async () => {
-        render(<ShelterSearch id="jest-search" handleChange={handleChange}/>)
+    const setup = (value: any, id: any) => {
+        const utils = render(<ShelterSearch value={value} id={id} handleChange={handleChange}/>)
+        const input = utils.getByPlaceholderText('Search an animal by name') as HTMLInputElement;
+        return {
+          input,
+          ...utils,
+        }
+    }
 
-        const expectedPlaceholder = "Search an animal by name";
-        const inputSearchElement = screen.queryByPlaceholderText(expectedPlaceholder);
-        expect(inputSearchElement).toBeInTheDocument();
+    it("Must render search with default info", async () => {
+        const {input} = setup("", "")
+        expect(input).toBeInTheDocument();
     });
+
+    it("Must render search with undefined values", async () => {
+        const {input} = setup(undefined, undefined)
+        expect(input.value).toBe("");
+    });
+
+    it("Must render search with new value", async () => {
+        const {input} = setup("Abby", "");
+        expect(input.value).toBe('Abby');
+    });
+
+    it("Must render search with default info", async () => {
+        const {input} = setup("", "");
+        fireEvent.change(input, {target: {value: 'Abby'}})
+        expect(input.value).toBe('Abby')
+    });
+
+
     it("Search must be acessible", async () => {
-        const { container} = render(<ShelterSearch id="jest-search" handleChange={handleChange}/>)
-        const results = await axe(container);
+        const {input} = setup("", "");
+        const results = await axe(input);
         expect(results).toHaveNoViolations();  
     });
 })

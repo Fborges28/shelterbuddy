@@ -1,11 +1,7 @@
-import { ShelterAnimalList } from "@/domain/models/api/ShelterAnimalList.model";
+import { ShelterAnimalListAPI } from "@/domain/models/api/ShelterAnimalList.model";
 
-async function animalListGetter(): Promise<any> {
-    try {
-      return await fetch("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
-    } catch (e) {
-      return null;
-    }
+async function fetchAPI(apiURL: any) {
+    return fetch(apiURL).then((data) => data).catch((error) => error);
 }
   
-export default animalListGetter;
+export default fetchAPI;

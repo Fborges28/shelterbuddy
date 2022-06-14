@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { usePagination } from '@/shared/hooks/Pagination';
 import { sortAsc } from '@/shared/utils/ArrayUtils';
 
 import ShelterAnimalHeader from '@/shared/components/ShelterAnimalTable/Header';
-import animalListGetter from '@/services/ShelterService';
+import fetchAPI from '@/services/ShelterService';
 import RenderAnimalTable from '@/shared/components/ShelterAnimalTable/Table';
 
 import { Animal } from '@/domain/models/Animal.model';
 import { AnimalAPIModel } from '@/domain/models/api/Animal.model';
-import { ShelterAnimalList } from '@/domain/models/api/ShelterAnimalList.model';
+import { ShelterAnimalListAPI } from '@/domain/models/api/ShelterAnimalList.model';
 import { createAnimalRow } from './animalRow';
 
 import "./styles.scss";
+import { Stack, Typography } from '@mui/material';
 
 function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
@@ -22,6 +24,8 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
   const [shelterAnimalFiltered, setShelterAnimalFiltered] = useState<Animal[]>([]);
   const [totalAnimals, setTotalAnimals] = useState(0);
   const [keyword, setKeyword] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const { slicedContent, sliceContent, goTo } = usePagination<Animal>(shelterAnimalFiltered, ROWS_PER_PAGE);
@@ -87,9 +91,8 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("passou aqui")
-      const data = await animalListGetter();
-      const result: ShelterAnimalList = await data.json();
+      const data = await fetchAPI("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
+      const result: ShelterAnimalListAPI = await data.json();
 
       const sorted = result.Data.sort((a:any, b:any) => sortAsc(a.Name, b.Name));
 
@@ -104,9 +107,13 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
       })
 
       initialState(rows);
+      setIsLoading(false);
     };
 
-    fetchData().catch(console.error);
+    fetchData().catch(e => {
+      setError(true);
+      setIsLoading(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -115,18 +122,33 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
 
   return (
     <Container maxWidth="xl" className="shelter-table-animal">
-        <Box className="shelter-table-animal__box">
+        <Box className="shelter-table-animal__box" sx={{minHeight: "250px"}}>
           <ShelterAnimalHeader 
             handleSearch={handleSearch}
             totalAnimals={totalAnimals}
           />
-          <RenderAnimalTable 
-            keyword={keyword}
-            content={slicedContent} 
-            handlePageChange={handlePageChange} 
-            count={pagination} 
-            page={currentPage}
-          />
+          
+          <Stack justifyContent="center" alignItems="center" sx={{minHeight: "250px", display: isLoading || error ? "flex" : "none"}}>
+            {
+              isLoading && (<CircularProgress />)
+            }
+
+            {
+              error && (<Typography>Sorry, we had a problem. Please, reload the page!</Typography>)
+            }
+          </Stack>
+
+          {
+            !error && !isLoading && (
+              <RenderAnimalTable 
+                keyword={keyword}
+                content={slicedContent} 
+                handlePageChange={handlePageChange} 
+                count={pagination} 
+                page={currentPage}
+              />
+            )
+          }
         </Box>
     </Container>
   )
