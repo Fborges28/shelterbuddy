@@ -6,6 +6,7 @@
   - [General info](#general-info)
   - [Technologies](#technologies)
   - [Dev](#dev)
+  - [Tests](#tests)
   - [Deploy](#deploy)
 
 ## General info
@@ -26,9 +27,24 @@ $ npm install
 $ npm run start
 ```
 
+OR:
+
 ``` bash
 $ yarn
 $ yarn start
+```
+
+## Tests
+To test this project locally, run:
+
+``` bash
+$ npm run test:watch
+```
+
+OR:
+
+``` bash
+$ yarn test:watch
 ```
 
 ## Deploy
@@ -39,7 +55,10 @@ $ npm install
 $ npm run deploy
 ```
 
+OR:
+
 ``` bash
 $ yarn
 $ yarn deploy
 ```
+
