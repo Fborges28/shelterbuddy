@@ -1,27 +1,34 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Stack, Typography, Grid, Pagination, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 
-import TableHead from '@/shared/components/ShelterAnimalTable/TableHead';
+import ShelterAnimalTableHead from '@/shared/components/ShelterAnimalTable/TableHead';
 import TableBody from '@/shared/components/ShelterAnimalTable/TableBody';
 import ShelterTable from '@/shared/components/ShelterTable';
 import ShelterCard from '@/shared/components/ShelterCard';
 import { Animal } from '@/domain/models/Animal.model';
+
+import { Order } from '@/domain/models/Order.model';
 
 export default function RenderAnimalTable({ 
     content, 
     count, 
     page, 
     keyword,
-    handlePageChange 
+    order,
+    handlePageChange,
+    handleRequestSort
 }: { 
     content: Animal[];
     count: number;
     page: number;
     keyword: string;
-    handlePageChange: (event: ChangeEvent<unknown>, page: number) => void
+    order: Order;
+    handlePageChange: (event: ChangeEvent<unknown>, page: number) => void,
+    handleRequestSort: (event: React.MouseEvent<unknown>,property: keyof Animal) => void
 }): JSX.Element{
     const [animalRows, setAnimalRows] = useState(content);
     const [pagination, setPagination] = useState(page);
+    
 
     useEffect(() => {
         setPagination(page)
@@ -30,6 +37,7 @@ export default function RenderAnimalTable({
     useEffect(() => {
         setAnimalRows(content);
     }, [content])
+
 
     return(
         <Grid container spacing={2} justifyContent="center" alignItems="center">
@@ -48,7 +56,14 @@ export default function RenderAnimalTable({
                     <>
                         <Grid item lg={12} sx={{ display: { xs: "none", lg: "block" }}}>
                             <ShelterTable 
-                                tableHeadContent={animalRows.length > 0 ? TableHead() : <></>}
+                                tableHeadContent={animalRows.length > 0 ? 
+                                    <ShelterAnimalTableHead 
+                                        order={order}
+                                        orderBy={"name"}
+                                        onRequestSort={handleRequestSort}
+                                        rowCount={animalRows.length}
+                                    /> : <></>
+                                }
                                 tableBodyContent={TableBody(animalRows)} 
                             />
                         </Grid>

@@ -1,4 +1,7 @@
-export function sortAsc(a:any, b:any){
+export function sortOrder(a:any, b:any, order = "asc"){
+
+    console.log("sortOrder", order)
+
     if(a === null) {
         return 1;
     }
@@ -11,5 +14,5 @@ export function sortAsc(a:any, b:any){
         return 0;
     }
 
-    return a < b ? -1 : 1;
+    return a < b ? (order === "asc" ? -1 : 1) : (order === "asc" ? 1 : -1);
 }

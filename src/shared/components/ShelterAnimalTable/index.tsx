@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { usePagination } from '@/shared/hooks/Pagination';
-import { sortAsc } from '@/shared/utils/ArrayUtils';
+import { sortOrder } from '@/shared/utils/ArrayUtils';
 
 import ShelterAnimalHeader from '@/shared/components/ShelterAnimalTable/Header';
 import fetchAPI from '@/services/ShelterService';
@@ -15,8 +15,11 @@ import { AnimalAPIModel } from '@/domain/models/api/Animal.model';
 import { ShelterAnimalListAPI } from '@/domain/models/api/ShelterAnimalList.model';
 import { createAnimalRow } from './animalRow';
 
-import "./styles.scss";
 import { Stack, Typography } from '@mui/material';
+import { Order } from '@/domain/models/Order.model';
+
+import "./styles.scss";
+
 
 function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
   const ROWS_PER_PAGE = perPage;
@@ -28,6 +31,7 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
   const [error, setError] = useState(false);
   const [pagination, setPagination] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [order, setOrder] = useState<Order>('asc');
   const { slicedContent, sliceContent, goTo } = usePagination<Animal>(shelterAnimalFiltered, ROWS_PER_PAGE);
 
   function resetState(){
@@ -68,10 +72,14 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
     searchUserFlow(searchResult, keyword);
   }
 
+  function handleRequestSort(event: React.MouseEvent<unknown>, property: keyof Animal): void {
+    setOrder(currentOrder => currentOrder === "asc" ? 'desc' : 'asc');
+  };
+
   function searchUserFlow(result: Animal[], keyword: string){
     if(keyword && result.length > 0){
       searchFoundState(result);
-    } else if (keyword && result.length == 0){
+    } else if (keyword && result.length === 0){
       searchNotFoundState();
     } else {
       resetState();
@@ -94,7 +102,7 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
       const data = await fetchAPI("https://shelterbuddy.vercel.app/assets/data/AnimalList.json");
       const result: ShelterAnimalListAPI = await data.json();
 
-      const sorted = result.Data.sort((a:any, b:any) => sortAsc(a.Name, b.Name));
+      const sorted = result.Data.sort((a:any, b:any) => sortOrder(a.Name, b.Name, "asc"));
 
       const rows = sorted.map((animal: AnimalAPIModel) => {
         return createAnimalRow({
@@ -120,6 +128,12 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
     sliceContent(shelterAnimalFiltered)
   }, [currentPage])
 
+  useEffect(() => {
+    const sorted = shelterAnimalFiltered.sort((a:any, b:any) => sortOrder(a.name, b.name, order));
+    setShelterAnimalFiltered(sorted);
+    sliceContent(sorted);
+  }, [order])
+
   return (
     <Container maxWidth="xl" className="shelter-table-animal">
         <Box className="shelter-table-animal__box" sx={{minHeight: "250px"}}>
@@ -144,6 +158,8 @@ function ShelterAnimalTable({ perPage = 10 }): JSX.Element {
                 keyword={keyword}
                 content={slicedContent} 
                 handlePageChange={handlePageChange} 
+                handleRequestSort={handleRequestSort}
+                order={order}
                 count={pagination} 
                 page={currentPage}
               />
