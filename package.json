@@ -26,9 +26,10 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "test": "react-app-rewired test --verbose --coverage --watchAll",
+    "test": "react-app-rewired test",
+    "test:watch": "npm run test -- --verbose --coverage --watchAll",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "CI=true npm run test && npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
