@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/shelterbuddy/static/css/main.5dfd565f.css",
-    "main.js": "/shelterbuddy/static/js/main.31204eeb.js",
+    "main.css": "/shelterbuddy/static/css/main.f0da15f9.css",
+    "main.js": "/shelterbuddy/static/js/main.733b0777.js",
     "static/js/651.70b744f2.chunk.js": "/shelterbuddy/static/js/651.70b744f2.chunk.js",
     "static/media/pet.png": "/shelterbuddy/static/media/pet.393fe2b7121ea0fc3f47.png",
     "static/media/logo_shelterbuddy.svg": "/shelterbuddy/static/media/logo_shelterbuddy.75bd51d8a210c4c2512d88799d7ac925.svg",
     "index.html": "/shelterbuddy/index.html",
-    "main.5dfd565f.css.map": "/shelterbuddy/static/css/main.5dfd565f.css.map",
-    "main.31204eeb.js.map": "/shelterbuddy/static/js/main.31204eeb.js.map",
+    "main.f0da15f9.css.map": "/shelterbuddy/static/css/main.f0da15f9.css.map",
+    "main.733b0777.js.map": "/shelterbuddy/static/js/main.733b0777.js.map",
     "651.70b744f2.chunk.js.map": "/shelterbuddy/static/js/651.70b744f2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5dfd565f.css",
-    "static/js/main.31204eeb.js"
+    "static/css/main.f0da15f9.css",
+    "static/js/main.733b0777.js"
   ]
 }
