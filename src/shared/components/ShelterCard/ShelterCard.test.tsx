@@ -18,21 +18,22 @@ describe('ShelterCard Unit Tests', () => {
         window.getComputedStyle = (elt) => getComputedStyle(elt);
     })
     it("Must render card with default info", () => {
-        render(<ShelterCard breed="" color="" gender="" name="" type=""/>)
+        const mockFn = jest.fn();
+        render(<ShelterCard animal={animalMock} handleCurrentDetail={mockFn}/>)
 
         const cardElement = document.querySelector(".shelter-table-animal__card");
         expect(cardElement).toBeInTheDocument();
     });
     it("Clicks on the details button", () => {
-        render(<ShelterCard breed="" color="" gender="" name="" type=""/>)
-        const spy = jest.spyOn(global.console, 'log');
+        const mockFn = jest.fn();
+        render(<ShelterCard animal={animalMock} handleCurrentDetail={mockFn}/>)
         const buttonElement = document.querySelector("button");
         fireEvent.click(buttonElement!);
-        expect(global.console.log).toHaveBeenCalledWith("details");
-        spy.mockRestore();
+        expect(mockFn).toHaveBeenCalled();
     });
     it("Must render card content", async () => {
-        render(<ShelterCard {...animalMock}/>)
+        const mockFn = jest.fn();
+        render(<ShelterCard animal={animalMock} handleCurrentDetail={mockFn}/>)
 
         const name = screen.getByTestId('shelter-animal-card-name');
         const type = screen.getByTestId('shelter-animal-card-type');
@@ -47,7 +48,8 @@ describe('ShelterCard Unit Tests', () => {
         expect(color?.textContent).toBe("Color: " + animalMock.color);
     });
     it("Card must be acessible", async() => {
-        const { container} = render(<ShelterCard {...animalMock}/>)
+        const mockFn = jest.fn();
+        const { container} = render(<ShelterCard animal={animalMock} handleCurrentDetail={mockFn}/>)
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });

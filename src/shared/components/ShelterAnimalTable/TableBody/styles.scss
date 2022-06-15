@@ -1,0 +1,17 @@
+.shelter-table-animal__row{
+    .shelter-table-animal__button-detail{
+        display: flex;
+
+        span {
+            transition: margin 0.2s ease-in-out;
+            display: flex;
+            margin-left: 8px;
+        }
+
+        &:hover {
+            > span:nth-of-type(1) {
+                margin-left: 12px;
+            }
+        }
+    }
+}

@@ -5,8 +5,9 @@ import ShelterAnimalTableHead from '@/shared/components/ShelterAnimalTable/Table
 import TableBody from '@/shared/components/ShelterAnimalTable/TableBody';
 import ShelterTable from '@/shared/components/ShelterTable';
 import ShelterCard from '@/shared/components/ShelterCard';
-import { Animal } from '@/domain/models/Animal.model';
+import ShelterAnimalModal from '@/shared/components/ShelterAnimalModal';
 
+import { Animal } from '@/domain/models/Animal.model';
 import { Order } from '@/domain/models/Order.model';
 
 export default function RenderAnimalTable({ 
@@ -28,6 +29,15 @@ export default function RenderAnimalTable({
 }): JSX.Element{
     const [animalRows, setAnimalRows] = useState(content);
     const [pagination, setPagination] = useState(page);
+    const [open, setOpen] = useState(false);
+    const [currentAnimalDetail, setCurrentAnimalDetail] = useState<Animal>();
+    
+    const handleOpen = (currentAnimal: Animal) => {
+        setOpen(true);
+        setCurrentAnimalDetail(currentAnimal);
+    };
+
+    const handleClose = () => setOpen(false);
     
 
     useEffect(() => {
@@ -65,7 +75,7 @@ export default function RenderAnimalTable({
                                     /> : <></>
                                 }
                                 tableBodyContent={
-                                    <TableBody rows={animalRows} placeholder="-"/>
+                                    <TableBody rows={animalRows} handleCurrentDetail={handleOpen} placeholder="-"/>
                                 } 
                             />
                         </Grid>
@@ -75,15 +85,7 @@ export default function RenderAnimalTable({
                                 animalRows.map((animal, index) => {
                                     const animalIdentifier = (animal.name || animal.type || "animal");
                                     
-                                    return <ShelterCard 
-                                            name={animal.name}  
-                                            breed={animal.breed}  
-                                            type={animal.type}  
-                                            gender={animal.gender}  
-                                            color={animal.color}  
-                                            photo={animal.photo}  
-                                            key={animalIdentifier + index} 
-                                        />
+                                    return <ShelterCard animal={animal} key={animalIdentifier + index} handleCurrentDetail={handleOpen}/>
                                     })
                                 }
                         </Grid>
@@ -102,6 +104,16 @@ export default function RenderAnimalTable({
                     </>
                 )
             }
+
+            <ShelterAnimalModal 
+                open={open}
+                handleClose={handleClose} 
+                name={currentAnimalDetail?.name || "-"} 
+                gender={currentAnimalDetail?.gender || "-"} 
+                type={currentAnimalDetail?.type || "-"} 
+                breed={currentAnimalDetail?.breed || "-"} 
+                color={currentAnimalDetail?.color || "-"}
+            />
         </Grid>
     )
 }

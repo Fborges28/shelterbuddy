@@ -6,7 +6,19 @@ import ShelterTableCell from '@/shared/components/ShelterTable/TableCell';
 import pet from "@/shared/assets/pet.png";
 import { Animal } from '@/domain/models/Animal.model';
 
-export default function ShelterAnimalTableBody({rows, placeholder = "-"} : { rows:  Animal[], placeholder: string }){
+import "./styles.scss";
+import { useState } from 'react';
+
+
+export default function ShelterAnimalTableBody({
+    rows, 
+    handleCurrentDetail, 
+    placeholder = "-"} : 
+    { 
+        rows:  Animal[], 
+        handleCurrentDetail: (animal: Animal) => void, 
+        placeholder: string 
+    }){
     return(
         <>
             {rows.map((row, index) => {
@@ -26,7 +38,7 @@ export default function ShelterAnimalTableBody({rows, placeholder = "-"} : { row
                             {row.type || placeholder}
                         </ShelterTableCell>
 
-                        <ShelterTableCell align="left" style={{width: "30%"}}>
+                        <ShelterTableCell align="left" style={{width: "25%"}}>
                             {row.breed || placeholder}
                         </ShelterTableCell>
 
@@ -38,14 +50,16 @@ export default function ShelterAnimalTableBody({rows, placeholder = "-"} : { row
                             {row.color || placeholder}
                         </ShelterTableCell>
 
-                        <ShelterTableCell align="right" style={{width: "10%"}}>
-                            <Button className="" endIcon={<ChevronRightIcon />} onClick={() => alert('details')}>
+                        <ShelterTableCell align="right" style={{width: "15%"}}>
+                            <Button className="shelter-table-animal__button-detail" endIcon={<ChevronRightIcon />} onClick={() => handleCurrentDetail(row)}>
                                 Details
                             </Button>
                         </ShelterTableCell>
                     </ShelterTableRow>
                 )
             })}
+
+            
         </>
     )
 }
