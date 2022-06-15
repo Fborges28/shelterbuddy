@@ -8,7 +8,6 @@ const modalBoxStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
     bgcolor: 'background.paper',
     p: 4,
 };
@@ -27,7 +26,7 @@ function ShelterAnimalModal({...props}: ModalProps) {
         aria-describedby="modal-modal-description"
         className="shelter-table-animal__modal"
         >
-        <Box sx={modalBoxStyle}>
+        <Box sx={modalBoxStyle} className="shelter-table-animal__modal__box">
             <Typography id="modal-modal-title" variant="h6" component="h2">Name: {props?.name}</Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>Type: {props?.type}</Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>Breed: {props?.breed}</Typography>

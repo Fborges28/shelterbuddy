@@ -3,4 +3,18 @@
         color: #fff;
         background-color: var(--primary-color);
     }
+
+    &__box{
+        width: 80%;
+        max-width: 240px;
+    }
+}
+
+@media screen and (min-width: 540px) {
+    .shelter-table-animal__modal{
+        &__box{
+            max-width: initial;
+            width: 400px;
+        }
+    }
 }
