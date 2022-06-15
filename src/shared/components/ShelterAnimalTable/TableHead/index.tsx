@@ -40,17 +40,17 @@ const headCells: readonly HeadCell[] = [
       label: 'Breed',
     },
     {
+        id: 'gender',
+        numeric: false,
+        disablePadding: false,
+        label: 'Gender',
+    },
+    {
       id: 'color',
       numeric: false,
       disablePadding: false,
       label: 'Color',
-    },
-    {
-      id: 'gender',
-      numeric: false,
-      disablePadding: false,
-      label: 'Gender',
-    },
+    }
 ];
   
 
